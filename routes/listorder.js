@@ -1,33 +1,18 @@
 const express = require('express');
 const sql = require('mssql');
 const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
 // const app = express();
 const router = express.Router();
+const getHeader = require('./header');
 
-// userName: 'sa',
-// password: '304#sa#pw'
-
-// Global database configuration
-// const dbConfig = {
-//     server: 'localhost',
-//     database: 'orders',
-//     authentication: {
-//         type: 'default',
-//         options: {
-//             userName: 'harper',
-//             password: 'harper'
-//         }
-//     },
-//     options: {
-//         encrypt: false,
-//         enableArithAbort: false,
-//         trustServerCertificate: true
-//     }
-// };
 
 router.get('/', function (req, res) {
     res.setHeader('Content-Type', 'text/html');
-
+    res.write("<title>YOUR NAME Grocery</title>");
+    res.write(getHeader()); // Include the header
+    res.write("<h1>Product Search</h1>");
     (async function () {
         try {
             // Connect to the database
@@ -65,29 +50,55 @@ router.get('/', function (req, res) {
                         (op.quantity * op.price) AS total
                     FROM orderproduct op
                     INNER JOIN product p ON op.productId = p.productId
-                    WHERE op.orderId = ${order.orderId}
+                    WHERE op.orderId = @orderId
                 `;
-                let productsResults = await pool.request().query(productsQuery);
+                let productsResults = await pool.request()
+                    .input('orderId', sql.Int, order.orderId)
+                    .query(productsQuery);
 
-                // Display the products in a list
-                res.write('<ul>');
+                // Display the products in a grid
+                res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
                 for (let product of productsResults.recordset) {
-                    res.write(`<li>Product: ${product.productName} - Quantity: ${product.quantity} - Price: $${product.price.toFixed(2)} - Total: $${product.total.toFixed(2)}</li>`);
+                    // Check for multiple image file types
+                    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                    let productImage = '/images/default.jpg'; 
+                    let baseDir = path.resolve(__dirname, '..');
+
+                    for (const ext of imageExtensions) {
+                        const imagePath = path.join(baseDir, 'public', 'images', `${product.productId}.${ext}`);
+                        if (fs.existsSync(imagePath)) {
+                            productImage = `/images/${product.productId}.${ext}`;
+                            break;
+                        }
+                    }
+
+                    // Log the image path for debugging
+                    console.log(`Product Image: ${productImage}`);
+
+                    res.write(`
+                        <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                            <a href="/add-to-cart?productId=${product.productId}">
+                                <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
+                            </a>
+                            <p><a href="/add-to-cart?productId=${product.productId}">${product.productName}</a></p>
+                            <p>Quantity: ${product.quantity}</p>
+                            <p>Price: $${product.price.toFixed(2)}</p>
+                            <p>Total: $${product.total.toFixed(2)}</p>
+                        </div>
+                    `);
                 }
-                res.write('</ul>');
+                res.write('</div>');
                 res.write('<hr>'); // Separator between orders
             }
 
             res.end();
         } catch (err) {
             console.error("Error retrieving data from SQL:", err);
-            res.status(500).send(`<p>Error retrieving orders: ${err.message}</p>`);
+            if (!res.headersSent) {
+                res.status(500).send(`<p>Error retrieving orders: ${err.message}</p>`);
+            }
         }
     })();
 });
-
-// app.listen(3000, () => {
-//     console.log('Server running on http://localhost:3000');
-// });
 
 module.exports = router;

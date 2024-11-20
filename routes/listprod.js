@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
+const path = require('path');
+const fs = require('fs');
+const getHeader = require('./header'); 
 
+// Serve static files from the 'images' folder
+router.use('/images', express.static(path.join(__dirname, '..', 'images')));
 
 router.get('/', async function (req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>YOUR NAME Grocery</title>");
+    res.write(getHeader()); 
     res.write("<h1>Product Search</h1>");
 
     // Display the search form
@@ -34,7 +40,8 @@ router.get('/', async function (req, res) {
                 SELECT 
                     productId, 
                     productName, 
-                    productPrice 
+                    productPrice,
+                    productImage
                 FROM dbo.product
                 WHERE productName LIKE '%' + @productName + '%'
             `;
@@ -44,7 +51,8 @@ router.get('/', async function (req, res) {
                 SELECT 
                     productId, 
                     productName, 
-                    productPrice 
+                    productPrice,
+                    productImage
                 FROM dbo.product
             `;
         }
@@ -61,21 +69,45 @@ router.get('/', async function (req, res) {
         if (result.recordset.length === 0) {
             res.write(`<p>No products found${name ? ` for "${name}"` : ""}.</p>`);
         } else {
-            res.write("<ul>");
+            // Display the products in a grid
+            res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
             for (const product of result.recordset) {
                 const formattedPrice = product.productPrice.toFixed(2);
                 const addCartLink = `addcart?id=${product.productId}&name=${encodeURIComponent(product.productName)}&price=${formattedPrice}`;
-                res.write(`<li>${product.productName} - $${formattedPrice} <a href="${addCartLink}">Add to Cart</a></li>`);
+                
+                // Check for multiple image file types
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                let productImage = '/images/default.jpg'; 
+                let baseDir = path.resolve(__dirname, '..');
+
+                for (const ext of imageExtensions) {
+                    const imagePath = path.join(baseDir, 'public', 'images', `${product.productId}.${ext}`);
+                    if (fs.existsSync(imagePath)) {
+                        productImage = `/images/${product.productId}.${ext}`;
+                        break;
+                    }
+                }
+
+                // Log the image path for debugging
+                console.log(`Product Image: ${productImage}`);
+                
+                res.write(`
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                        <a href="${addCartLink}">
+                            <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
+                        </a>
+                        <p><a href="${addCartLink}">${product.productName}</a></p>
+                        <p>Price: $${formattedPrice}</p>
+                    </div>
+                `);
             }
-            res.write("</ul>");
+            res.write('</div>');
         }
 
         res.end();
     } catch (err) {
-        console.error("Database error:", err);
-        if (!res.headersSent) {
-            res.status(500).send("<p>An error occurred while retrieving the products.</p>");
-        }
+        console.error("Error retrieving data from SQL:", err);
+        res.status(500).send(`<p>Error retrieving products: ${err.message}</p>`);
     }
 });
 

@@ -1,6 +1,8 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const session = require('express-session')
+const session = require('express-session');
+const path = require('path');
+const fs = require('fs');
 
 let loadData = require('./routes/loaddata');
 let listOrder = require('./routes/listorder');
@@ -41,12 +43,13 @@ app.use(session({
 }))
 
 // Setting up the rendering engine
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 // Setting up Express.js routes.
 // These present a "route" on the URL of the site.
 // Eg: http://127.0.0.1/loaddata
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/loaddata', loadData);
 app.use('/listorder', listOrder);
 app.use('/listprod', listProd);
@@ -60,7 +63,7 @@ app.get('/', function (req, res) {
   res.render('index', {
     title: "YOUR NAME Grocery Main Page"
   });
-})
+});
 
 // Starting our Express app
 // app.listen(3000)
