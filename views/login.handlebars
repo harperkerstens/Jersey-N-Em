@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, input {
+            margin-bottom: 15px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/login">
+        <h1 style="text-align: center;">Login</h1>
+        {{#if error}}
+            <p style="color: red;">{{error}}</p>
+        {{/if}}
+        <label for="userid">User ID:</label>
+        <input type="text" id="userid" name="userid" value="bobby" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="bobby" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

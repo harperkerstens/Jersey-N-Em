@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
 const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', async function(req, res) {
     res.setHeader('Content-Type', 'text/html');
@@ -9,14 +11,8 @@ router.get('/', async function(req, res) {
     res.write("<h1>Order Processing</h1>");
 
     let productList = req.session.productList || []; // Shopping cart stored in session
-    const customerId = req.query.customerId; // Get customerId from query parameters
-
-    // Validate customer ID
-    if (!customerId || isNaN(customerId)) {
-        res.write("<p>Error: Invalid Customer ID. Please enter a valid number.</p>");
-        res.end();
-        return;
-    }
+    const customerId = req.session.authenticatedUser.customerId; // Use authenticated user's ID
+    console.log("kjk customerId: " + customerId);
 
     // Validate that there are items in the cart
     if (productList.length === 0) {
@@ -46,6 +42,31 @@ router.get('/', async function(req, res) {
         }
 
         const customer = customerResult.recordset[0];
+
+        // Check product inventory
+        let sufficientInventory = true;
+        for (const product of productList) {
+            const productInventoryQuery = `
+                SELECT quantity 
+                FROM dbo.productinventory 
+                WHERE productId = @productId
+            `;
+            const productInventoryResult = await pool.request()
+                .input('productId', sql.Int, product.id)
+                .query(productInventoryQuery);
+
+            if (productInventoryResult.recordset.length > 0 && productInventoryResult.recordset[0].quantity < product.quantity) {
+                sufficientInventory = false;
+                break;
+            }
+        }
+
+        if (!sufficientInventory) {
+            res.write("<h1>Insufficient inventory for one or more items in your cart.</h1>");
+            res.write('<a href="/showcart">Go back to cart</a>');
+            res.end();
+            return;
+        }
 
         // Insert into OrderSummary and retrieve the auto-generated orderId
         const orderDate = moment().format('YYYY-MM-DD');
@@ -86,6 +107,17 @@ router.get('/', async function(req, res) {
                 .input('quantity', sql.Int, product.quantity)
                 .input('price', sql.Decimal(10, 2), product.price)
                 .query(orderedProductQuery);
+
+            // Update product inventory
+            const updateInventoryQuery = `
+                UPDATE dbo.productinventory
+                SET quantity = quantity - @quantity
+                WHERE productId = @productId
+            `;
+            await pool.request()
+                .input('quantity', sql.Int, product.quantity)
+                .input('productId', sql.Int, product.id)
+                .query(updateInventoryQuery);
         }
 
         // Update totalAmount in OrderSummary
@@ -111,7 +143,26 @@ router.get('/', async function(req, res) {
 
             const { name, quantity, price } = product;            
             const subtotal = (quantity * price).toFixed(2);
-            res.write(`<li>${name} - Quantity: ${quantity}, Price: $${price.toFixed(2)}, Subtotal: $${subtotal}</li>`);
+
+            // Check for multiple image file types
+            const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            let productImage = '/images/default.jpg'; 
+            let baseDir = path.resolve(__dirname, '..');
+
+            for (const ext of imageExtensions) {
+                const imagePath = path.join(baseDir, 'public', 'images', `${product.id}.${ext}`);
+                if (fs.existsSync(imagePath)) {
+                    productImage = `/images/${product.id}.${ext}`;
+                    break;
+                }
+            }
+
+            res.write(`
+                <li>
+                    <img src="${productImage}" alt="${name}" style="width: 50px; height: auto; vertical-align: middle;">
+                    ${name} - Quantity: ${quantity}, Price: $${price.toFixed(2)}, Subtotal: $${subtotal}
+                </li>
+            `);
         }
         res.write("</ul>");
         res.write(`<p><strong>Total Amount:</strong> $${totalAmount.toFixed(2)}</p>`);

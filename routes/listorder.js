@@ -3,10 +3,8 @@ const sql = require('mssql');
 const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
-// const app = express();
 const router = express.Router();
 const getHeader = require('./header');
-
 
 router.get('/', function (req, res) {
     res.setHeader('Content-Type', 'text/html');
@@ -44,6 +42,7 @@ router.get('/', function (req, res) {
                 // Query for products in the current order
                 let productsQuery = `
                     SELECT 
+                        p.productId, 
                         p.productName, 
                         op.quantity, 
                         op.price, 
@@ -72,15 +71,10 @@ router.get('/', function (req, res) {
                         }
                     }
 
-                    // Log the image path for debugging
-                    console.log(`Product Image: ${productImage}`);
-
                     res.write(`
                         <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
-                            <a href="/add-to-cart?productId=${product.productId}">
-                                <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
-                            </a>
-                            <p><a href="/add-to-cart?productId=${product.productId}">${product.productName}</a></p>
+                            <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
+                            <p>${product.productName}</p>
                             <p>Quantity: ${product.quantity}</p>
                             <p>Price: $${product.price.toFixed(2)}</p>
                             <p>Total: $${product.total.toFixed(2)}</p>

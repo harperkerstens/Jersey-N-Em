@@ -73,7 +73,8 @@ router.get('/', async function (req, res) {
             res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
             for (const product of result.recordset) {
                 const formattedPrice = product.productPrice.toFixed(2);
-                const addCartLink = `addcart?id=${product.productId}&name=${encodeURIComponent(product.productName)}&price=${formattedPrice}`;
+                const productLink = `/product?id=${product.productId}`;
+                const addCartLink = `/addcart?id=${product.productId}&name=${encodeURIComponent(product.productName)}&price=${formattedPrice}`;
                 
                 // Check for multiple image file types
                 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -89,15 +90,21 @@ router.get('/', async function (req, res) {
                 }
 
                 // Log the image path for debugging
-                console.log(`Product Image: ${productImage}`);
+                // console.log(`Product Image: ${productImage}`);
                 
                 res.write(`
                     <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
-                        <a href="${addCartLink}">
+                        <a href="${productLink}">
                             <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
                         </a>
-                        <p><a href="${addCartLink}">${product.productName}</a></p>
+                        <p><a href="${productLink}">${product.productName}</a></p>
                         <p>Price: $${formattedPrice}</p>
+                        <form method="POST" action="/addcart">
+                            <input type="hidden" name="id" value="${product.productId}">
+                            <input type="hidden" name="name" value="${product.productName}">
+                            <input type="hidden" name="price" value="${formattedPrice}">
+                            <button type="submit">Add to Cart</button>
+                        </form>
                     </div>
                 `);
             }

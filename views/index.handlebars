@@ -1,3 +1,41 @@
-<h1 align="center">Welcome to JERSEY-N-EM Grocery</h1>
-<h2 align="center"><a href="/listprod">Begin Shopping</a></h2>
-<h2 align="center"><a href="/listorder">List All Orders</a></h2>
+<!-- filepath: /d:/School/Current/COSC 304/304_lab7_starter_node/views/index.handlebars -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+        }
+        li {
+            margin: 10px 0; /* Add some spacing between links */
+        }
+        h2 {
+            text-align: center; /* Center align the links */
+            font-size: 1.5em; /* Increase font size */
+        }
+        p {
+            font-size: 1.2em; /* Increase font size */
+        }
+        h1 {
+            font-size: 2em; /* Increase font size */
+        }
+    </style>
+</head>
+<body>
+    <h1 align="center">Welcome to Jersey N Em</h1>
+    {{#if username}}
+        <p>Welcome, {{username.firstName}}!</p>
+    {{else}}
+        <p>Welcome, Guest!</p>
+    {{/if}}
+    <ul>
+        {{#each links}}
+            <li><h2><a href="{{this.href}}">{{this.text}}</a></h2></li>
+        {{/each}}
+    </ul>
+</body>
+</html>
