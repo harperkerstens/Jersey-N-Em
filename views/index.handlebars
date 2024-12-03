@@ -6,36 +6,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <style>
-        ul {
-            list-style-type: none; /* Remove bullet points */
-            padding: 0;
-        }
-        li {
-            margin: 10px 0; /* Add some spacing between links */
-        }
-        h2 {
-            text-align: center; /* Center align the links */
-            font-size: 1.5em; /* Increase font size */
-        }
-        p {
-            font-size: 1.2em; /* Increase font size */
-        }
-        h1 {
-            font-size: 2em; /* Increase font size */
-        }
-    </style>
+* {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: 'planetbe';
+  src: url('/fonts/CAVEMAN_.woff2') format('woff2'),
+       url('/fonts/CAVEMAN_.woff') format('woff'),
+       url('/fonts/CAVEMAN_.ttf') format('truetype');
+}
+
+
+/* Style the header */
+.header {
+
+    background: linear-gradient(to bottom, #ffffff, #0a7a74);
+    padding: 1px;
+    text-align: center;
+    font-size: 25px;
+    border-bottom: 4px solid #ffffff;
+
+}
+
+
+/* Style the footer */
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .row:after, .row {
+    width: 100%;
+    length: 90%;
+  }
+}
+</style>
 </head>
 <body>
-    <h1 align="center">Welcome to Jersey N Em</h1>
-    {{#if username}}
-        <p>Welcome, {{username.firstName}}!</p>
+	
+    {{#if req.session.authenticatedUser}}
+        <p style="text-align:left;"></p>
+            Welcome, {{authenticatedUser.username}}!
+            <span style="float:right;"></span>
+                <a href="/customer">View Account</a>
+            </span>
+        </p>
+        <h4 align="right"><a href="/logout">Log out</a></h4>
     {{else}}
-        <p>Welcome, Guest!</p>
+        <h4 align="right"><a href="/login">Login</a></h4>
     {{/if}}
-    <ul>
+
+
+
+<div class="header">
+    
+  <h2 style="font-family: 'planetbe'; text-align: center;">Jersey N Em</h2>
+</div>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+    <img src="/images/WEBIMG/wallp.jpg" alt="KB" style="width:100%; height:auto;">
+  </div>
+
+<div class="row two" style="background: linear-gradient(to bottom, #3b6aa8, #FFFFFF); text-align: center;">Column
+        <div class="grid-container"></div>
+        <h4 align="center"><a href="/listorder">List All Orders</a></h4>
+        <h4 align="center"><a href="/customer">Customer Info</a></h4>
+        <h4 align="center"><a href="/admin">Administrators</a></h4>
+        <h4 align="center"><a href="/showcart">Cart</a></h4>
+        <h4 align="center"><a href="/logout">Log out</a></h4>
+         <h4 align="center"><a href="/loaddata">Log out</a></h4>
+     </div>
+</div>
+
+<div class="footer">
+  <h5>Creators</h5>
+</div>
+
+</body>
+</html>
+
+
+
+{{!-- </head>
+
+<body>
+    </style>
+    <h1 style="font-family: 'The Jacatra', sans-serif; text-align: center;"><u>Jersey <sub>N</sub> Em</u></h1>
+    {{#if username}}
+        <p style= "text-align: center;"> Welcome, {{username.firstName}}!</p>
+    {{else}}
+        <p style = "text-align: center;"> Welcome, Guest!</p>
+    {{/if}}
+
         {{#each links}}
             <li><h2><a href="{{this.href}}">{{this.text}}</a></h2></li>
         {{/each}}
-    </ul>
 </body>
-</html>
+</html> 
+
+
+Login
+
+Begin Shopping
+
+List All Orders
+
+Customer Info
+
+Administrators
+
+Cart
+
+Log out
+
+--}}
+
+
