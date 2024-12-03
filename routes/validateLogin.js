@@ -9,7 +9,9 @@ router.post('/', function(req, res) {
     (async () => {
         let authenticatedUser = await validateLogin(req);
         if (authenticatedUser) {
-            res.redirect("/");
+            let redirectUrl = req.session.current_url || '/';
+            req.session.current_url = null; // Clear the stored URL after redirecting
+            res.redirect(redirectUrl);
         } else {
             req.session.current_url = req.originalUrl;
             res.redirect("/login");

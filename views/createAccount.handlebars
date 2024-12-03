@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 600px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+            translate: x(-100%);
+        }
+        .form-row label {
+            text-align: right;
+            padding-right: 10px;
+            font-weight: bold;
+        }
+        .form-row input {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .shift-left {
+            margin-left: 75px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/createAccount">
+        <h1>Create Account</h1>
+        {{#if error}}
+            <p style="color: red;">{{error}}</p>
+        {{/if}}
+        
+        <div class="form-row shift-left">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <div class="form-row shift-left">
+            <label for="phonenum">Phone Number:</label>
+            <input type="text" id="phonenum" name="phonenum" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-row shift-left">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+
+        <div class="form-row shift-left">
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+        </div>
+
+        <div class="form-row shift-left">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+
+            <label for="userid">User ID:</label>
+            <input type="text" id="userid" name="userid" required>
+        </div>
+
+        <div class="form-row shift-left">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+</body>
+</html>

@@ -38,13 +38,13 @@ router.get('/', async function (req, res) {
 
             // Check for multiple image file types
             const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            let productImage = '/images/default.jpg'; 
-            let baseDir = path.resolve(__dirname, '..');
+            let productImage = '/images/jerseys/default.jpg'; 
+            let baseDir = path.resolve(__dirname, '..', 'public', 'images', 'jerseys');
 
             for (const ext of imageExtensions) {
-                const imagePath = path.join(baseDir, 'public', 'images', `${product.productId}.${ext}`);
+                const imagePath = path.join(baseDir, `${product.productId}.${ext}`);
                 if (fs.existsSync(imagePath)) {
-                    productImage = `/images/${product.productId}.${ext}`;
+                    productImage = `/images/jerseys/${product.productId}.${ext}`;
                     break;
                 }
             }

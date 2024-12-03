@@ -27,14 +27,13 @@ router.post('/', async function (req, res) {
 
         if (result.recordset.length === 1) {
             req.session.authenticatedUser = result.recordset[0];            
-             let current_url = req.session.current_url;
-            //let current_url = 'order';
+            let current_url = req.session.current_url;
             if (current_url) {
+                req.session.current_url = null; // Clear the stored URL after redirecting
                 res.redirect(current_url);
             } else {
                 res.redirect('/');
             }
-            // req.session.current_url = req.originalUrl;
         } else {
             res.render('login', { title: "Login", error: "Invalid username or password" });
         }

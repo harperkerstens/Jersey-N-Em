@@ -5,6 +5,7 @@ const getHeader = require('./header');
 
 router.get('/', async function (req, res) {
     if (!req.session.authenticatedUser) {
+        req.session.current_url = req.originalUrl;
         return res.redirect('/login');
     }
 
