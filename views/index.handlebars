@@ -28,6 +28,19 @@
   display: table;
 }
 
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: auto; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 /* Style the header */
 .header {
 
@@ -39,19 +52,7 @@
 
 }
 
-/* Style the columns */
-.columnleft {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: auto; /* Should be removed. Only for demonstration purposes */
-}
-.columnright {
-    float: right;
-    width: 50%;
-    padding: 10px;
-    height: auto; /* Should be removed. Only for demonstration purposes */
-}
+
 /* Style the footer */
 .footer {
   background-color: #f1f1f1;
@@ -96,70 +97,31 @@
   <h2 style="font-family: 'planetbe'; text-align: center;">Jersey N Em</h2>
 </div>
 
-<div class="row">
-  <div class="column" style="background-color:#aaa;">
+<div >
+  <div style="background-color:#aaa;">
     <img src="/images/WEBIMG/wallp.jpg" alt="KB" style="width:100%; height:auto;">
   </div>
 
-<div class="row two" style="background: linear-gradient(to bottom, #3b6aa8, #FFFFFF); text-align: center;">Column
-        <div class="grid-container"></div>
+<div style="background: linear-gradient(to bottom, #3b6aa8, #FFFFFF); text-align: center;">BEGIN
         <h4 align="center"><a href="/listProd">Begin Shopping</a></h4>
         <h4 align="center"><a href="/admin">Administrators</a></h4>
-
-     </div>
 </div>
+<div class="footer" style="background-color: #FFFFFF;">
+    <h2>From the Creators</h2>
 
-<div class="footer">
-    <h5>Creators</h5>
-    <div class="columnleft" style="width: 50%; text-align: center;"></div>
-        <img src="/images/WEBIMG/creator1.png" alt="Creator 1" style="width:100px; height:auto;">
-        <h4>Harper Kerstens</h4>
-        <p>About me: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
-    <div class="columnright" style="width: 50%; text-align: center;">
-        <img src="/images/creator2.jpg" alt="Creator 2" style="width:100px; height:auto;">
-        <h4>Aaron Hong</h4>
-        <p>About me: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
+    <div class="row"></div>
+<div class="column" style="background: linear-gradient(to right, #80afd6, #FFFFFF), linear-gradient(to right, #80afd6, #FFFFFF);">
+    <h3>Harper Kersten</h3>
+    <img src="/images/WEBIMG/creator1.png" alt="Creator 1" style="width:60%; height:auto;">
+    <p> Wsg gang buy our jerseys</p>
+  </div>
+  <div class="column" style="background: linear-gradient(to left, #80afd6, #FFFFFF);">
+    <h3>Aaron Hong</h3>
+    <img src="/images/WEBIMG/creator2.png" alt="Creator 1" style="width:60%; height:auto;">
+    <p>Low key gotta buy these gang</p>
+  </div>
+</div>
 </div>
 
 </body>
 </html>
-
-
-
-{{!-- </head>
-
-<body>
-    </style>
-    <h1 style="font-family: 'The Jacatra', sans-serif; text-align: center;"><u>Jersey <sub>N</sub> Em</u></h1>
-    {{#if username}}
-        <p style= "text-align: center;"> Welcome, {{username.firstName}}!</p>
-    {{else}}
-        <p style = "text-align: center;"> Welcome, Guest!</p>
-    {{/if}}
-
-        {{#each links}}
-            <li><h2><a href="{{this.href}}">{{this.text}}</a></h2></li>
-        {{/each}}
-</body>
-</html> 
-
-
-Login
-
-Begin Shopping
-
-List All Orders
-
-Customer Info
-
-Administrators
-
-Cart
-
-Log out
-
---}}
-
-
