@@ -65,14 +65,12 @@ CREATE TABLE ordersummary (
 
 CREATE TABLE product (
     productId           INT IDENTITY(1,1),
-    productTeam         VARCHAR(40),
     productName         VARCHAR(40),
     productPrice        DECIMAL(10,2),
-    productImageURL     VARCHAR(100),
-    productImage        VARBINARY(MAX),
     productDesc         VARCHAR(1000),
     categoryId          INT,
-    PRIMARY KEY (productId),
+    teamId              INT,
+    PRIMARY KEY (productId)
 );
 
 CREATE TABLE orderproduct (
@@ -141,34 +139,6 @@ CREATE TABLE review (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Insert NBA jersey categories
-INSERT INTO category(categoryName) VALUES ('NBA Jerseys');
-
--- Insert NBA jerseys into the product table
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Golden State Warriors', 'Steph Curry Jersey', 'Authentic Steph Curry jersey', 100.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Los Angeles Lakers', 'LeBron James Jersey', 'Authentic LeBron James jersey', 110.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Chicago Bulls', 'Michael Jordan Jersey', 'Classic Michael Jordan jersey', 120.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Boston Celtics', 'Larry Bird Jersey', 'Retro Larry Bird jersey', 95.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Brooklyn Nets', 'Kevin Durant Jersey', 'Kevin Durant jersey from Brooklyn Nets', 105.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Milwaukee Bucks', 'Giannis Antetokounmpo Jersey', 'Authentic Giannis jersey', 100.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('San Antonio Spurs', 'Tim Duncan Jersey', 'Classic Tim Duncan jersey', 115.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Dallas Mavericks', 'Luka Doncic Jersey', 'Authentic Luka Doncic jersey', 110.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Philadelphia 76ers', 'Allen Iverson Jersey', 'Classic Allen Iverson jersey', 125.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Denver Nuggets', 'Nikola Jokic Jersey', 'Authentic Nikola Jokic jersey', 105.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Phoenix Suns', 'Devin Booker Jersey', 'Authentic Devin Booker jersey', 100.00, 1);
-INSERT INTO product (productTeam, productName, productDesc, productPrice, categoryId) 
-VALUES ('Miami Heat', 'Dwyane Wade Jersey', 'Classic Dwyane Wade jersey', 110.00, 1);
 
 -- Insert warehouse
 INSERT INTO warehouse(warehouseName) VALUES ('NBA Warehouse');

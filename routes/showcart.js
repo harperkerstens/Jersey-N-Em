@@ -74,9 +74,9 @@ router.get('/', function(req, res) {
                     <img src="${productImage}" alt="${product.name}">
                     <div>
                         <p>${product.name}</p>
-                        <p>Price: $${product.price.toFixed(2)}</p>
+                        <p>Price: $${product.price ? product.price.toFixed(2) : 'N/A'}</p>
                         <p>Quantity: ${product.quantity}</p>
-                        <p>Subtotal: $${(product.price * product.quantity).toFixed(2)}</p>
+                        <p>Subtotal: $${product.price ? (product.price * product.quantity).toFixed(2) : 'N/A'}</p>
                         <form method="POST" action="/showcart" style="display: inline;">
                             <input type="hidden" name="id" value="${product.id}">
                             <input type="number" name="quantity" value="${product.quantity}" min="1" style="width: 50px;">

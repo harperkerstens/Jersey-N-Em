@@ -21,16 +21,18 @@ router.get('/', async function (req, res) {
 
     // Buttons to switch between sections
     res.write(`
-        <div>
-            <button onclick="showSection('current')">Current</button>
-            <button onclick="showSection('historic')">Historic</button>
-            <button onclick="showSection('all')">All</button>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button onclick="showSection('current')" style="padding: 15px 30px; font-size: 18px;">Current</button>
+            <button onclick="showSection('historic')" style="padding: 15px 30px; font-size: 18px;">Historic</button>
+            <button onclick="showSection('all')" style="padding: 15px 30px; font-size: 18px;">All</button>
         </div>
         <script>
             function showSection(section) {
                 document.getElementById('current').style.display = section === 'current' || section === 'all' ? 'block' : 'none';
                 document.getElementById('historic').style.display = section === 'historic' || section === 'all' ? 'block' : 'none';
             }
+            // Show all sections by default
+            showSection('all');
         </script>
     `);
 
@@ -44,7 +46,7 @@ router.get('/', async function (req, res) {
                 productId, 
                 productName, 
                 productPrice,
-                productImage
+                productDesc
             FROM dbo.product
             WHERE teamId = @teamId AND categoryId = 1
         `;
@@ -53,7 +55,7 @@ router.get('/', async function (req, res) {
                 productId, 
                 productName, 
                 productPrice,
-                productImage
+                productDesc
             FROM dbo.product
             WHERE teamId = @teamId AND categoryId = 2
         `;
@@ -114,7 +116,7 @@ router.get('/', async function (req, res) {
         res.write('</div>');
 
         // Render historic products
-        res.write(`<div id="historic" style="display: none;"><h2>Historic Players</h2>`);
+        res.write(`<div id="historic" style="display: block;"><h2>Historic Players</h2>`);
         if (historicResult.recordset.length === 0) {
             res.write(`<p>No historic products found for ${teamName}.</p>`);
         } else {

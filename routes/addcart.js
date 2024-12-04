@@ -11,9 +11,9 @@ router.get('/', function(req, res, next) {
     // Get product information
     let id = req.query.id;
     let name = req.query.name;
-    let price = req.query.price;
+    let price = parseFloat(req.query.price);
 
-    if (!id || !name || !price) {
+    if (!id || !name || isNaN(price)) {
         return res.redirect("/listprod");
     }
 
@@ -38,6 +38,10 @@ router.post('/', function (req, res) {
     const productId = req.body.id;
     const productName = req.body.name;
     const productPrice = parseFloat(req.body.price);
+
+    if (!productId || !productName || isNaN(productPrice)) {
+        return res.redirect("/listprod");
+    }
 
     // Add the product to the cart (this is just an example, you should implement your own logic)
     let productList = req.session.productList || [];

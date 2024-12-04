@@ -40,8 +40,7 @@ router.get('/', async function (req, res) {
                 SELECT 
                     productId, 
                     productName, 
-                    productPrice,
-                    productImage
+                    productPrice
                 FROM dbo.product
                 WHERE productName LIKE '%' + @productName + '%'
             `;
@@ -51,8 +50,7 @@ router.get('/', async function (req, res) {
                 SELECT 
                     productId, 
                     productName, 
-                    productPrice,
-                    productImage
+                    productPrice
                 FROM dbo.product
             `;
         }
