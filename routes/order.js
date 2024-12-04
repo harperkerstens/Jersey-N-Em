@@ -8,6 +8,7 @@ const fs = require('fs');
 router.get('/', async function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>YOUR NAME Grocery Order Processing</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write("<h1>Order Processing</h1>");
 
     let productList = req.session.productList || []; // Shopping cart stored in session
@@ -63,7 +64,7 @@ router.get('/', async function(req, res) {
 
         if (!sufficientInventory) {
             res.write("<h1>Insufficient inventory for one or more items in your cart.</h1>");
-            res.write('<a href="/showcart">Go back to cart</a>');
+            res.write('<a href="/showcart" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Go back to cart</a>');
             res.end();
             return;
         }
@@ -166,7 +167,12 @@ router.get('/', async function(req, res) {
         }
         res.write("</ul>");
         res.write(`<p><strong>Total Amount:</strong> $${totalAmount.toFixed(2)}</p>`);
-
+        // Add "Back to Homepage" button
+        res.write(`
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="/" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; text-decoration: none; border: none; border-radius: 5px; cursor: pointer;">Homepage</a>
+            </div>
+        `);
         // Clear the shopping cart        
         req.session.productList = [];        
         res.end();

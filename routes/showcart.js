@@ -13,13 +13,21 @@ router.get('/', function(req, res) {
 
     res.write(getHeader()); // Include the header
 
+    // Add CSS for styling
     res.write(`
         <style>
+            body {
+                background-color: black;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
             .cart-container {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                justify-content: center; /* Center content vertically */
+                height: 80vh; /* Adjust height to center content */
             }
             .cart-item {
                 display: flex;
@@ -28,23 +36,74 @@ router.get('/', function(req, res) {
                 padding: 10px;
                 margin: 10px;
                 width: 80%;
+                background-color: #333; /* Slightly lighter black for contrast */
             }
             .cart-item img {
                 max-width: 100px;
                 margin-right: 20px;
             }
             .cart-buttons {
-                margin-top: 20px;
+                margin-top: 40px; /* Move buttons slightly down */
+                text-align: center;
             }
             .cart-buttons a, .cart-buttons button {
                 margin: 0 10px;
-                padding: 10px 20px;
+                padding: 12px 25px; /* Increased size for bigger buttons */
+                font-size: 1.2rem; /* Larger font size */
                 background-color: #007bff;
                 color: white;
                 text-decoration: none;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
+                transition: transform 0.2s, background-color 0.2s;
+            }
+            .cart-buttons a:hover, .cart-buttons button:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+                transform: scale(1.05); /* Slight scaling for effect */
+            }
+            form button {
+                padding: 8px 16px; /* Downsize buttons */
+                font-size: 1rem; /* Smaller font size */
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: transform 0.2s, background-color 0.2s;
+            }
+            form button[name="action"][value="update"] {
+                background-color: #007bff;
+                color: white;
+            }
+            form button[name="action"][value="update"]:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
+            form button[name="action"][value="remove"] {
+                background-color: #ff0000;
+                color: white;
+            }
+            form button[name="action"][value="remove"]:hover {
+                background-color: #cc0000;
+                transform: scale(1.05);
+            }
+            .empty-cart-message {
+                font-size: 1.5rem; /* Larger font size */
+                margin: 20px 0;
+            }
+            .empty-cart-button {
+                padding: 15px 30px; /* Larger button size */
+                font-size: 1.2rem; /* Larger font size */
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: transform 0.2s, background-color 0.2s;
+            }
+            .empty-cart-button:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
             }
         </style>
     `);
@@ -52,8 +111,8 @@ router.get('/', function(req, res) {
     res.write('<div class="cart-container">');
 
     if (cart.length === 0) {
-        res.write('<p>Your shopping cart is empty!</p>');
-        res.write('<a href="/listprod" class="cart-buttons">Continue Shopping</a>');
+        res.write('<p class="empty-cart-message">Your shopping cart is empty!</p>');
+        res.write('<a href="/listprod" class="empty-cart-button">Continue Shopping</a>');
     } else {
         res.write('<h1>Your Shopping Cart</h1>');
         cart.forEach(product => {

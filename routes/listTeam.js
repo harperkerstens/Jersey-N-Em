@@ -10,21 +10,22 @@ router.use('/images', express.static(path.join(__dirname, '..', 'images')));
 router.get('/', async function (req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>Team Logos</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write(getHeader());
     res.write("<h1>Browse by team</h1>");
 
     // Display the search form and conference buttons
     res.write(`
-        <form method="GET" action="/listTeam" style="display: flex; align-items: center;">
+        <form method="GET" action="/listTeam" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
             <label for="teamName" style="margin-right: 10px;">Search for a team:</label>
             <input type="text" id="teamName" name="teamName" style="flex-grow: 1; padding: 10px; font-size: 16px;">
-            <button type="submit" style="margin-left: 10px; padding: 10px 20px; font-size: 16px;">Search</button>
+            <button type="submit" style="margin-left: 10px; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Search</button>
         </form>
-        <div style="margin-top: 10px; display: flex; gap: 10px;">
-            <button onclick="window.location.href='/listTeam?conference=Eastern'" style="padding: 10px 20px; font-size: 16px;">Eastern</button>
-            <button onclick="window.location.href='/listTeam?conference=Western'" style="padding: 10px 20px; font-size: 16px;">Western</button>
-            <button onclick="window.location.href='/listTeam'" style="padding: 10px 20px; font-size: 16px;">Both Conferences</button>
-            <button onclick="window.location.href='/listProd'" style="padding: 10px 20px; font-size: 16px;">List All Products</button>
+        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button onclick="window.location.href='/listTeam?conference=Eastern'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Eastern Conference</button>
+            <button onclick="window.location.href='/listTeam?conference=Western'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Western Conference</button>
+            <button onclick="window.location.href='/listTeam'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Both Conferences</button>
+            <button onclick="window.location.href='/listProd'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">List All Products</button>
         </div>
         <hr>
     `);
@@ -59,7 +60,7 @@ router.get('/', async function (req, res) {
         res.write(`<p>No team logos found${teamNameQuery ? ` for "${teamNameQuery}"` : ""}.</p>`);
     } else {
         // Display the logos in a grid
-        res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">');
+        res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; color: white;">');
         for (const logoFile of logoFiles) {
             const teamName = path.basename(logoFile, path.extname(logoFile));
             const teamId = getTeamIdByName(teamName); // Function to get teamId by teamName
@@ -71,11 +72,11 @@ router.get('/', async function (req, res) {
             const logoPath = `/images/logos/${conferenceQuery ? conferenceQuery + '/' : ''}${logoFile}`;
 
             res.write(`
-                <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                     <a href="${teamLink}">
                         <img src="${logoPath}" alt="${teamName}" style="width: 100%; height: auto;">
                     </a>
-                    <p><a href="${teamLink}">${teamName}</a></p>
+                    <p><a href="${teamLink}" style="color: black;">${teamName}</a></p>
                 </div>
             `);
         }

@@ -32,21 +32,27 @@ router.get('/', async function (req, res) {
                 <head>
                     <title>Customer Profile</title>
                     <style>
-                        table { width: 50%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+                        body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                        table { width: 50%; margin: auto; border-collapse: collapse; margin-top: 20px; color: white; }
                         th, td { border: 1px solid #ddd; padding: 8px; }
-                        th { background-color: #f2f2f2; }
+                        th { background-color: #333; }
                         nav { text-align: center; margin-bottom: 20px; }
-                        nav a { margin: 0 15px; text-decoration: none; color: #000; }
+                        nav a { margin: 0 15px; text-decoration: none; color: #007bff; }
                         .hidden { display: none; }
                         .center { text-align: center; }
-                        .large-button { font-size: 18px; padding: 10px 20px; margin-top: 20px; }
-                        .button { font-size: 18px; padding: 10px 20px; margin-top: 20px; }
+                        .large-button, .button { font-size: 18px; padding: 10px 20px; margin-top: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                        .large-button:hover, .button:hover { background-color: #0056b3; }
                     </style>
                     <script>
                         function enableEdit() {
                             document.querySelectorAll('.editable').forEach(el => el.disabled = false);
                             document.getElementById('updateButton').classList.remove('hidden');
                             document.getElementById('editButton').classList.add('hidden');
+                            document.getElementById('changePasswordButton').classList.remove('hidden');
+                        }
+                        function showPasswordFields() {
+                            document.getElementById('passwordFields').classList.remove('hidden');
+                            document.getElementById('changePasswordButton').classList.add('hidden');
                         }
                     </script>
                 </head>
@@ -71,6 +77,7 @@ router.get('/', async function (req, res) {
                         </div>
                         <div class="center">
                             <button type="button" id="editButton" class="button" onclick="enableEdit()">Edit</button>
+                            <button type="button" id="changePasswordButton" class="button hidden" onclick="showPasswordFields()">Change Password</button>
                             <button type="submit" id="updateButton" class="button hidden">Update</button>
                         </div>
                     </form>
@@ -105,9 +112,11 @@ router.post('/update', async function (req, res) {
             <head>
                 <title>Error</title>
                 <style>
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; }
                     .center { text-align: center; margin-top: 50px; }
                     .large-text { font-size: 24px; color: red; }
-                    button { margin: 10px; padding: 10px 20px; }
+                    button { margin: 10px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    button:hover { background-color: #0056b3; }
                 </style>
             </head>
             <body>
@@ -165,9 +174,11 @@ router.post('/update', async function (req, res) {
             <head>
                 <title>Update Successful</title>
                 <style>
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; }
                     .center { text-align: center; margin-top: 50px; }
                     .large-text { font-size: 24px; }
-                    button { margin: 10px; padding: 10px 20px; }
+                    button { margin: 10px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    button:hover { background-color: #0056b3; }
                 </style>
             </head>
             <body>
@@ -237,13 +248,15 @@ router.get('/orders', async function (req, res) {
                 <head>
                     <title>Order History for ${customer.firstName} ${customer.lastName}</title>
                     <style>
-                        table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+                        body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                        table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; color: white; }
                         th, td { border: 1px solid #ddd; padding: 8px; }
-                        th { background-color: #f2f2f2; }
+                        th { background-color: #333; }
                         nav { text-align: center; margin-bottom: 20px; }
-                        nav a { margin: 0 15px; text-decoration: none; color: #000; }
+                        nav a { margin: 0 15px; text-decoration: none; color: #007bff; }
                         .center { text-align: center; }
-                        .button { font-size: 18px; padding: 10px 20px; margin-top: 20px; }
+                        .button { font-size: 18px; padding: 10px 20px; margin-top: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                        .button:hover { background-color: #0056b3; }
                         .order-section { margin-bottom: 40px; border: 1px solid #ccc; padding: 20px; }
                         .product-image { width: 100%; height: auto; }
                     </style>
@@ -275,7 +288,7 @@ router.get('/orders', async function (req, res) {
                                     }
 
                                     return `
-                                        <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                                        <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                                             <img src="${productImage}" alt="${product.productName}" class="product-image">
                                             <p>${product.productName}</p>
                                             <p>Quantity: ${product.quantity}</p>

@@ -16,15 +16,16 @@ router.get('/', async function (req, res) {
 
     res.setHeader('Content-Type', 'text/html');
     res.write(`<title>${teamName} Products</title>`);
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write(getHeader());
     res.write(`<h1>Products for ${teamName}</h1>`);
 
     // Buttons to switch between sections
     res.write(`
         <div style="text-align: center; margin-bottom: 20px;">
-            <button onclick="showSection('current')" style="padding: 15px 30px; font-size: 18px;">Current</button>
-            <button onclick="showSection('historic')" style="padding: 15px 30px; font-size: 18px;">Historic</button>
-            <button onclick="showSection('all')" style="padding: 15px 30px; font-size: 18px;">All</button>
+            <button onclick="showSection('current')" style="padding: 15px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Current</button>
+            <button onclick="showSection('historic')" style="padding: 15px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Historic</button>
+            <button onclick="showSection('all')" style="padding: 15px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">All</button>
         </div>
         <script>
             function showSection(section) {
@@ -67,7 +68,7 @@ router.get('/', async function (req, res) {
 
         // Function to render products
         const renderProducts = (products) => {
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">';
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; color: white;">';
             for (const product of products) {
                 const formattedPrice = product.productPrice.toFixed(2);
                 const productLink = `/product?id=${product.productId}`;
@@ -87,17 +88,17 @@ router.get('/', async function (req, res) {
                 }
 
                 html += `
-                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                         <a href="${productLink}">
                             <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
                         </a>
-                        <p><a href="${productLink}">${product.productName}</a></p>
+                        <p><a href="${productLink}" style="color: black;">${product.productName}</a></p>
                         <p>Price: $${formattedPrice}</p>
                         <form method="POST" action="/addcart">
                             <input type="hidden" name="id" value="${product.productId}">
                             <input type="hidden" name="name" value="${product.productName}">
                             <input type="hidden" name="price" value="${formattedPrice}">
-                            <button type="submit">Add to Cart</button>
+                            <button type="submit" style="background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add to Cart</button>
                         </form>
                     </div>
                 `;

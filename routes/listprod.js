@@ -11,16 +11,20 @@ router.use('/images', express.static(path.join(__dirname, '..', 'images')));
 router.get('/', async function (req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>YOUR NAME Grocery</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write(getHeader()); 
     res.write("<h1>Product Search</h1>");
 
     // Display the search form
     res.write(`
-        <form method="GET" action="/listprod">
-            <label for="productName">Search for a product:</label>
-            <input type="text" id="productName" name="productName">
-            <button type="submit">Search</button>
+        <form method="GET" action="/listprod" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+            <label for="productName" style="margin-right: 10px;">Search for a product:</label>
+            <input type="text" id="productName" name="productName" style="flex-grow: 1; padding: 10px; font-size: 16px;">
+            <button type="submit" style="margin-left: 10px; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Search</button>
         </form>
+        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button onclick="window.location.href='/listTeam'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Shop by Team</button>
+        </div>
         <hr>
     `);
 
@@ -68,7 +72,7 @@ router.get('/', async function (req, res) {
             res.write(`<p>No products found${name ? ` for "${name}"` : ""}.</p>`);
         } else {
             // Display the products in a grid
-            res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
+            res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; color: white;">');
             for (const product of result.recordset) {
                 const formattedPrice = product.productPrice.toFixed(2);
                 const productLink = `/product?id=${product.productId}`;
@@ -91,17 +95,17 @@ router.get('/', async function (req, res) {
                 // console.log(`Product Image: ${productImage}`);
                 
                 res.write(`
-                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                         <a href="${productLink}">
                             <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
                         </a>
-                        <p><a href="${productLink}">${product.productName}</a></p>
+                        <p><a href="${productLink}" style="color: black;">${product.productName}</a></p>
                         <p>Price: $${formattedPrice}</p>
                         <form method="POST" action="/addcart">
                             <input type="hidden" name="id" value="${product.productId}">
                             <input type="hidden" name="name" value="${product.productName}">
                             <input type="hidden" name="price" value="${formattedPrice}">
-                            <button type="submit">Add to Cart</button>
+                            <button type="submit" style="background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add to Cart</button>
                         </form>
                     </div>
                 `);

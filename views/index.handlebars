@@ -1,4 +1,3 @@
-<!-- filepath: /d:/School/Current/COSC 304/304_lab7_starter_node/views/index.handlebars -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,17 @@
     <style>
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: white; /* Default text color */
 }
+
+body {
+  background-color: black; /* Set background color to black */
+  color: white; /* Set text color to white */
+}
+
 @font-face {
   font-family: 'planetbe';
   src: url('/fonts/CAVEMAN_.woff2') format('woff2'),
@@ -16,12 +25,14 @@
        url('/fonts/CAVEMAN_.ttf') format('truetype');
 }
 
-.float-l{
-    float : left
+.float-l {
+  float: left;
 }
+
 .float-r {
   float: right;
 }
+
 .clearfix::after {
   content: "";
   clear: both;
@@ -32,35 +43,55 @@
   float: left;
   width: 50%;
   padding: 10px;
-  height: auto; /* Should be removed. Only for demonstration */
+  height: auto;
 }
 
-/* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
-/* Style the header */
+
 .header {
-
-    background: linear-gradient(to bottom, #ffffff, #0a7a74);
-    padding: 1px;
-    text-align: center;
-    font-size: 25px;
-    border-bottom: 5px solid #ffffff;
-
+  background: linear-gradient(to bottom, #000000, #000000); /* Dark gradient for header */
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 35px;
+  /*border-bottom: 5px solid #ffffff; */
 }
 
-
-/* Style the footer */
 .footer {
-  background-color: #f1f1f1;
+  background-color: #000000; /* Darker footer background */
   padding: 10px;
   text-align: center;
 }
 
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #000000; /* Dark background for navbar */
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  margin-left: 10px;
+  color: white; /* White link color */
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+.mainimg {
+  text-align: center;
+  align-items: center;
+  padding: 10px;
+}
+
 @media (max-width: 600px) {
   .row:after, .row {
     width: 100%;
@@ -70,52 +101,46 @@
 </style>
 </head>
 <body>
-	
- {{#if username}}
-<div style = float: right;>
-    <span class="float-l">&nbsp;&nbsp;Welcome, {{username.firstName}}!</span>
-    <span class="float-r">
-        <div style="float: right;"></div>
+<div class="nav-bar">
+    <span class="welcome-msg">Welcome, {{#if username}}{{username.firstName}}{{else}}Guest{{/if}}!</span>
+    <div class="nav-links">
+        {{#if username}}
             <a href="/showcart">Cart</a>&nbsp;&nbsp;
             <a href="/listorder">Orders</a>&nbsp;&nbsp;
             <a href="/customer">Customer Info</a>&nbsp;&nbsp;
+            <a href="/admin">Admin Dashboard</a>
             <a href="/logout">Log out</a> 
-        </div>
-    </span>
+        {{else}}
+            <a href="/admin">Admin Dashboard</a>
+            <a href="/login">Login</a>
+        {{/if}}
+    </div>
 </div>
-
-{{else}}
-
-<div></div>
-	<span class= "float-l" >Welcome, Guest!</span>
-	<span class= "float-r"><a href="/login">Login </a></span>
-</div>
-
-{{/if}}
 
 <div class="header">
   <h2 style="font-family: 'planetbe'; text-align: center;">Jersey N Em</h2>
 </div>
-
-<div >
-  <div style="background-color:#aaa;">
-    <img src="/images/WEBIMG/wallp.jpg" alt="KB" style="width:100%; height:auto;">
+{{!---
+<div>
+  <div class= 'mainimg' style="background-color:#222;"> <!-- Slightly lighter black -->
+    <img src="/images/WEBIMG/wallp.jpg" alt="KB" style="width:75%; height:auto;">
+  </div>
+---}}
+<div>
+  <div class= 'mainimg' style="background-color:#000000;"> <!-- Slightly lighter black -->
+   <a href="/listTeam"><img src="/images/WEBIMG/toProduct.png" alt="KB" style="width:75%; height:auto;"></a> 
   </div>
 
-<div style="background: linear-gradient(to bottom, #3b6aa8, #FFFFFF); text-align: center;">BEGIN
-        <h4 align="center"><a href="/listProd">Begin Shopping</a></h4>
-        <h4 align="center"><a href="/admin">Administrators</a></h4>
-</div>
-<div class="footer" style="background-color: #FFFFFF;">
+<div class="footer">
     <h2>From the Creators</h2>
 
     <div class="row"></div>
-<div class="column" style="background: linear-gradient(to right, #80afd6, #FFFFFF), linear-gradient(to right, #80afd6, #FFFFFF);">
-    <h3>Harper Kersten</h3>
+<div class="column" style="background: linear-gradient(to right, #000000, #000000);">
+    <h3>Harper Kerstens</h3>
     <img src="/images/WEBIMG/creator1.png" alt="Creator 1" style="width:60%; height:auto;">
     <p> Wsg gang buy our jerseys</p>
   </div>
-  <div class="column" style="background: linear-gradient(to left, #80afd6, #FFFFFF);">
+  <div class="column" style="background: linear-gradient(to left, #000000, #000000);">
     <h3>Aaron Hong</h3>
     <img src="/images/WEBIMG/creator2.png" alt="Creator 1" style="width:60%; height:auto;">
     <p>Low key gotta buy these gang</p>

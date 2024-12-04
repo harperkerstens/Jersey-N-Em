@@ -1,17 +1,83 @@
-
 const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
 
 router.get('/', function (req, res) {
-    res.render('createAccount', { title: "Create Account" });
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Create Account</title>
+            <style>
+                body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                .form-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+                .form-container form { display: flex; flex-direction: column; width: 300px; }
+                .form-container input { padding: 10px; margin-bottom: 10px; font-size: 16px; }
+                .form-container button { padding: 10px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+            </style>
+        </head>
+        <body>
+            <div class="form-container">
+                <h1>Create Account</h1>
+                <form method="post">
+                    <input type="text" name="firstName" placeholder="First Name">
+                    <input type="text" name="lastName" placeholder="Last Name">
+                    <input type="email" name="email" placeholder="Email">
+                    <input type="text" name="phonenum" placeholder="Phone Number">
+                    <input type="text" name="address" placeholder="Address">
+                    <input type="text" name="city" placeholder="City">
+                    <input type="text" name="state" placeholder="State">
+                    <input type="text" name="postalCode" placeholder="Postal Code">
+                    <input type="text" name="country" placeholder="Country">
+                    <input type="text" name="userid" placeholder="User ID">
+                    <input type="password" name="password" placeholder="Password">
+                    <button type="submit">Create Account</button>
+                </form>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
 router.post('/', async function (req, res) {
     const { firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password } = req.body;
 
     if (!firstName || !lastName || !email || !phonenum || !address || !city || !state || !postalCode || !country || !userid || !password) {
-        return res.render('createAccount', { title: "Create Account", error: "All fields are required" });
+        return res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Create Account</title>
+                <style>
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                    .form-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+                    .form-container form { display: flex; flex-direction: column; width: 300px; }
+                    .form-container input { padding: 10px; margin-bottom: 10px; font-size: 16px; }
+                    .form-container button { padding: 10px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                </style>
+            </head>
+            <body>
+                <div class="form-container">
+                    <h1>Create Account</h1>
+                    <p style="color: red;">All fields are required</p>
+                    <form method="post">
+                        <input type="text" name="firstName" placeholder="First Name">
+                        <input type="text" name="lastName" placeholder="Last Name">
+                        <input type="email" name="email" placeholder="Email">
+                        <input type="text" name="phonenum" placeholder="Phone Number">
+                        <input type="text" name="address" placeholder="Address">
+                        <input type="text" name="city" placeholder="City">
+                        <input type="text" name="state" placeholder="State">
+                        <input type="text" name="postalCode" placeholder="Postal Code">
+                        <input type="text" name="country" placeholder="Country">
+                        <input type="text" name="userid" placeholder="User ID">
+                        <input type="password" name="password" placeholder="Password">
+                        <button type="submit">Create Account</button>
+                    </form>
+                </div>
+            </body>
+            </html>
+        `);
     }
 
     try {

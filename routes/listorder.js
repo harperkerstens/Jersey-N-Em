@@ -8,9 +8,9 @@ const getHeader = require('./header');
 
 router.get('/', function (req, res) {
     res.setHeader('Content-Type', 'text/html');
-    res.write("<title>YOUR NAME Grocery</title>");
+    res.write("<title>Jersey N Em</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write(getHeader()); // Include the header
-    res.write("<h1>Product Search</h1>");
     (async function () {
         try {
             // Connect to the database
@@ -56,7 +56,7 @@ router.get('/', function (req, res) {
                     .query(productsQuery);
 
                 // Display the products in a grid
-                res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
+                res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; color: white;">');
                 for (let product of productsResults.recordset) {
                     // Check for multiple image file types
                     const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -72,7 +72,7 @@ router.get('/', function (req, res) {
                     }
 
                     res.write(`
-                        <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                        <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                             <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
                             <p>${product.productName}</p>
                             <p>Quantity: ${product.quantity}</p>

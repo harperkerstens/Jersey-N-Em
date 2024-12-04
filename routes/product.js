@@ -8,6 +8,7 @@ const getHeader = require('./header');
 router.get('/', async function (req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>YOUR NAME Grocery - Product Details</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write(getHeader());
 
     const productId = req.query.id;
@@ -50,7 +51,7 @@ router.get('/', async function (req, res) {
             }
 
             res.write(`
-                <div style="text-align: center;">
+                <div style="text-align: center; background-color: white; color: black; padding: 20px; border-radius: 10px; margin: 20px;">
                     <h1>${product.productName}</h1>
                     <img src="${productImage}" alt="${product.productName}" style="width: 35%; height: auto;">
                     <p>${product.productDescription}</p>
@@ -59,7 +60,7 @@ router.get('/', async function (req, res) {
                         <input type="hidden" name="id" value="${product.productId}">
                         <input type="hidden" name="name" value="${product.productName}">
                         <input type="hidden" name="price" value="${formattedPrice}">
-                        <button type="submit">Add to Cart</button>
+                        <button type="submit" style="padding: 15px 30px; font-size: 18px;">Add to Cart</button>
                     </form>
                 </div>
             `);

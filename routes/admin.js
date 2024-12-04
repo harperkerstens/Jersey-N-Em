@@ -11,7 +11,7 @@ const path = require('path'); // Add this line
 function getAdminDashboardButton() {
     return `
         <div style="text-align: center; margin-top: 20px;">
-            <button onclick="location.href='/admin'" style="padding: 10px 20px; font-size: 16px;">Admin Dashboard</button>
+            <button onclick="location.href='/admin'" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Admin Dashboard</button>
         </div>
     `;
 }
@@ -28,9 +28,10 @@ router.get('/', function (req, res) {
         <head>
             <title>Admin Page</title>
             <style>
-                body { text-align: center; margin-top: 50px; }
+                body { background-color: black; color: white; font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
                 .button-container { display: flex; justify-content: center; gap: 20px; }
-                button { padding: 20px 40px; font-size: 20px; }
+                button { padding: 20px 40px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                button:hover { background-color: #0056b3; }
             </style>
         </head>
         <body>
@@ -72,11 +73,12 @@ router.get('/customers', async function (req, res) {
             <head>
                 <title>Customer List</title>
                 <style>
-                    table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                    table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; color: white; }
                     th, td { border: 1px solid #ddd; padding: 8px; }
-                    th { background-color: #f2f2f2; }
+                    th { background-color: #333; }
                     nav { text-align: center; margin-bottom: 20px; }
-                    nav a { margin: 0 15px; text-decoration: none; color: #000; }
+                    nav a { margin: 0 15px; text-decoration: none; color: #007bff; }
                 </style>
             </head>
             <body>
@@ -150,13 +152,15 @@ router.get('/sales-report', async function (req, res) {
             <head>
                 <title>Administrator Sales Report by Day</title>
                 <style>
-                    table { width: 50%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; }
+                    table { width: 50%; margin: auto; border-collapse: collapse; margin-top: 20px; color: white; }
                     th, td { border: 1px solid #ddd; padding: 8px; }
-                    th { background-color: #f2f2f2; }
+                    th { background-color: #333; }
                     nav { text-align: center; margin-bottom: 20px; }
-                    nav a { margin: 0 15px; text-decoration: none; color: #000; }
+                    nav a { margin: 0 15px; text-decoration: none; color: #007bff; }
                     #salesChart { display: none; width: 1509px; height: 754px; margin: auto; margin-top: 20px; }
-                    #toggleButton { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; }
+                    #toggleButton { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    #toggleButton:hover { background-color: #0056b3; }
                 </style>
                 <script src="${chartJsCdn}"></script>
                 <script>
@@ -242,9 +246,10 @@ router.get('/add-edit-products', function (req, res) {
         <head>
             <title>Add/Edit Products</title>
             <style>
-                body { text-align: center; margin-top: 50px; }
+                body { background-color: black; color: white; font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
                 .button-container { display: flex; justify-content: center; gap: 20px; }
-                button { padding: 20px 40px; font-size: 20px; }
+                button { padding: 20px 40px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                button:hover { background-color: #0056b3; }
             </style>
         </head>
         <body>
@@ -273,11 +278,12 @@ router.get('/add-jersey', function (req, res) {
         <head>
             <title>Add Jersey</title>
             <style>
-                body { text-align: center; margin-top: 50px; }
+                body { background-color: black; color: white; font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
                 form { display: inline-block; text-align: left; }
                 label { display: block; margin-top: 10px; }
                 input, select { width: 100%; padding: 8px; margin-top: 5px; }
-                button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+                button { margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                button:hover { background-color: #0056b3; }
             </style>
         </head>
         <body>
@@ -436,15 +442,16 @@ router.get('/edit-jersey', async function (req, res) {
 
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>Edit Jersey</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif; }</style>");
     res.write(getHeader());
     res.write("<h1>Edit Jersey</h1>");
 
     // Display the search form
     res.write(`
-        <form method="GET" action="/admin/edit-jersey">
-            <label for="productName">Search for a jersey:</label>
-            <input type="text" id="productName" name="productName">
-            <button type="submit">Search</button>
+        <form method="GET" action="/admin/edit-jersey" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+            <label for="productName" style="margin-right: 10px;">Search for a jersey:</label>
+            <input type="text" id="productName" name="productName" style="flex-grow: 1; padding: 10px; font-size: 16px;">
+            <button type="submit" style="margin-left: 10px; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Search</button>
         </form>
         <hr>
     `);
@@ -488,7 +495,7 @@ router.get('/edit-jersey', async function (req, res) {
         if (result.recordset.length === 0) {
             res.write(`<p>No jerseys found${name ? ` for "${name}"` : ""}.</p>`);
         } else {
-            res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
+            res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; color: white;">');
             for (const product of result.recordset) {
                 const formattedPrice = product.productPrice.toFixed(2);
                 const editLink = `/admin/editprod?id=${product.productId}`;
@@ -507,13 +514,13 @@ router.get('/edit-jersey', async function (req, res) {
                 }
 
                 res.write(`
-                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                         <a href="${editLink}">
                             <img src="${productImage}" alt="${product.productName}" style="width: 100%; height: auto;">
                         </a>
                         <p>${product.productName}</p>
                         <p>Price: $${formattedPrice}</p>
-                        <a href="${editLink}"><button>Edit</button></a>
+                        <a href="${editLink}"><button style="background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Edit</button></a>
                     </div>
                 `);
             }
@@ -562,11 +569,12 @@ router.get('/editprod', async function (req, res) {
             <head>
                 <title>Edit Product</title>
                 <style>
-                    body { text-align: center; margin-top: 50px; }
+                    body { background-color: black; color: white; font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
                     form { display: inline-block; text-align: left; }
                     label { display: block; margin-top: 10px; }
                     input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
-                    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+                    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    button:hover { background-color: #0056b3; }
                 </style>
             </head>
             <body>
@@ -621,7 +629,6 @@ router.get('/editprod', async function (req, res) {
                         <option value="27" ${product.teamId === 27 ? 'selected' : ''}>Knicks</option>
                         <option value="28" ${product.teamId === 28 ? 'selected' : ''}>Clippers</option>
                         <option value="29" ${product.teamId === 29 ? 'selected' : ''}>Grizzlies</option>
-                        <option value="30" ${product.teamId === 30 ? 'selected' : ''}>Blazers</option>
                     </select>
                     
                     <label for="productImage">Product Image (.jpg):</label>
@@ -631,7 +638,7 @@ router.get('/editprod', async function (req, res) {
                 </form>
                 <form action="/admin/deleteprod" method="post" style="margin-top: 20px;">
                     <input type="hidden" name="productId" value="${product.productId}">
-                    <button type="submit" style="background-color: red; color: white;">Delete Jersey</button>
+                    <button type="submit" style="background-color: red; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Jersey</button>
                 </form>
             </body>
             </html>
@@ -776,6 +783,7 @@ router.get('/restore-database', async function (req, res) {
 
             res.setHeader('Content-Type', 'text/html');
             res.write('<title>Data Loader</title>');
+            res.write('<style>body { background-color: black; color: white; font-family: Arial, sans-serif; }</style>');
             res.write('<h1>Connecting to database.</h1><p>');
 
             let data = fs.readFileSync("./ddl/SQLServer_orderJerseyNEm.ddl", { encoding: 'utf8' });

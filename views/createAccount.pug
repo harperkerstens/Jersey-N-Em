@@ -1,0 +1,51 @@
+
+doctype html
+html
+  head
+    title= title
+    style.
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      input, button {
+        padding: 10px;
+        font-size: 16px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  body
+    .form-container
+      if error
+        p(style="color: red;")= error
+      form(method="post")
+        input(type="text" name="firstName" placeholder="First Name")
+        input(type="text" name="lastName" placeholder="Last Name")
+        input(type="email" name="email" placeholder="Email")
+        input(type="text" name="phonenum" placeholder="Phone Number")
+        input(type="text" name="address" placeholder="Address")
+        input(type="text" name="city" placeholder="City")
+        input(type="text" name="state" placeholder="State")
+        input(type="text" name="postalCode" placeholder="Postal Code")
+        input(type="text" name="country" placeholder="Country")
+        input(type="text" name="userid" placeholder="User ID")
+        input(type="password" name="password" placeholder="Password")
+        button(type="submit") Create Account

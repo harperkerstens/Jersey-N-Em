@@ -13,11 +13,12 @@ router.get('/', async function (req, res, next) {
 
     res.setHeader('Content-Type', 'text/html');
     res.write("<title>Grocery CheckOut Line</title>");
+    res.write("<style>body { background-color: black; color: white; font-family: Arial, sans-serif;}</style>");
     res.write("<h1>Complete your transaction:</h1>");
 
     if (productList.length === 0) {
         res.write('<p>Your shopping cart is empty!</p>');
-        res.write('<a href="/listprod">Continue Shopping</a>');
+        res.write('<a href="/listprod" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Continue Shopping</a>');
     } else {
         res.write('<h2>Your Shopping Cart</h2>');
         res.write('<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">');
@@ -36,7 +37,7 @@ router.get('/', async function (req, res, next) {
             }
 
             res.write(`
-                <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                <div style="border: 1px solid #ccc; padding: 10px; text-align: center; background-color: white; color: black;">
                     <img src="${productImage}" alt="${product.name}" style="width: 100%; height: auto;">
                     <p>${product.name}</p>
                     <p>Price: $${product.price.toFixed(2)}</p>
@@ -47,8 +48,8 @@ router.get('/', async function (req, res, next) {
         });
 
         res.write('</div>');
-        res.write('<form method="get" action="order">');
-        res.write('<input type="submit" value="Checkout">');
+        res.write('<form method="get" action="order" style="text-align: center; margin-top: 20px;">');
+        res.write('<input type="submit" value="Checkout" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">');
         res.write('</form>');
     }
 
