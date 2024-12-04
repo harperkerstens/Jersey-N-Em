@@ -16,6 +16,17 @@
        url('/fonts/CAVEMAN_.ttf') format('truetype');
 }
 
+.float-l{
+    float : left
+}
+.float-r {
+  float: right;
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
 /* Style the header */
 .header {
@@ -24,11 +35,23 @@
     padding: 1px;
     text-align: center;
     font-size: 25px;
-    border-bottom: 4px solid #ffffff;
+    border-bottom: 5px solid #ffffff;
 
 }
 
-
+/* Style the columns */
+.columnleft {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: auto; /* Should be removed. Only for demonstration purposes */
+}
+.columnright {
+    float: right;
+    width: 50%;
+    padding: 10px;
+    height: auto; /* Should be removed. Only for demonstration purposes */
+}
 /* Style the footer */
 .footer {
   background-color: #f1f1f1;
@@ -47,22 +70,29 @@
 </head>
 <body>
 	
-    {{#if req.session.authenticatedUser}}
-        <p style="text-align:left;"></p>
-            Welcome, {{authenticatedUser.username}}!
-            <span style="float:right;"></span>
-                <a href="/customer">View Account</a>
-            </span>
-        </p>
-        <h4 align="right"><a href="/logout">Log out</a></h4>
-    {{else}}
-        <h4 align="right"><a href="/login">Login</a></h4>
-    {{/if}}
+ {{#if username}}
+<div style = float: right;>
+    <span class="float-l">&nbsp;&nbsp;Welcome, {{username.firstName}}!</span>
+    <span class="float-r">
+        <div style="float: right;"></div>
+            <a href="/showcart">Cart</a>&nbsp;&nbsp;
+            <a href="/listorder">Orders</a>&nbsp;&nbsp;
+            <a href="/customer">Customer Info</a>&nbsp;&nbsp;
+            <a href="/logout">Log out</a> 
+        </div>
+    </span>
+</div>
 
+{{else}}
 
+<div></div>
+	<span class= "float-l" >Welcome, Guest!</span>
+	<span class= "float-r"><a href="/login">Login </a></span>
+</div>
+
+{{/if}}
 
 <div class="header">
-    
   <h2 style="font-family: 'planetbe'; text-align: center;">Jersey N Em</h2>
 </div>
 
@@ -73,17 +103,24 @@
 
 <div class="row two" style="background: linear-gradient(to bottom, #3b6aa8, #FFFFFF); text-align: center;">Column
         <div class="grid-container"></div>
-        <h4 align="center"><a href="/listorder">List All Orders</a></h4>
-        <h4 align="center"><a href="/customer">Customer Info</a></h4>
+        <h4 align="center"><a href="/listProd">Begin Shopping</a></h4>
         <h4 align="center"><a href="/admin">Administrators</a></h4>
-        <h4 align="center"><a href="/showcart">Cart</a></h4>
-        <h4 align="center"><a href="/logout">Log out</a></h4>
-         <h4 align="center"><a href="/loaddata">Log out</a></h4>
+
      </div>
 </div>
 
 <div class="footer">
-  <h5>Creators</h5>
+    <h5>Creators</h5>
+    <div class="columnleft" style="width: 50%; text-align: center;"></div>
+        <img src="/images/WEBIMG/creator1.png" alt="Creator 1" style="width:100px; height:auto;">
+        <h4>Harper Kerstens</h4>
+        <p>About me: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+    <div class="columnright" style="width: 50%; text-align: center;">
+        <img src="/images/creator2.jpg" alt="Creator 2" style="width:100px; height:auto;">
+        <h4>Aaron Hong</h4>
+        <p>About me: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
 </div>
 
 </body>
