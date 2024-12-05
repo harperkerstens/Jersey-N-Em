@@ -201,8 +201,21 @@ router.get('/sales-report', async function (req, res) {
                                 maintainAspectRatio: false, // Disable aspect ratio maintenance
                                 responsive: false,         // Disable responsiveness
                                 scales: {
-                                    x: { title: { display: true, text: 'Order Date' } },
-                                    y: { title: { display: true, text: 'Total Order Amount' } }
+                                    x: { 
+                                        title: { display: true, text: 'Order Date' },
+                                        grid: { color: 'rgba(255, 255, 255, 0.2)' } // Change grid lines color
+                                    },
+                                    y: { 
+                                        title: { display: true, text: 'Total Order Amount' },
+                                        grid: { color: 'rgba(255, 255, 255, 0.2)' } // Change grid lines color
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            color: 'white' // Change legend text color
+                                        }
+                                    }
                                 }
                             }
                         });

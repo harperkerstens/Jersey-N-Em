@@ -22,8 +22,6 @@ router.post('/', async function (req, res) {
 
         const result = await request.query(query);
 
-        console.log('Query:', query);
-        console.log('Result:', result.recordset);
 
         if (result.recordset.length === 1) {
             req.session.authenticatedUser = result.recordset[0];            

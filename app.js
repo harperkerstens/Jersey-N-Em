@@ -22,6 +22,9 @@ const listProdRouter = require('./routes/listprod');
 const productRouter = require('./routes/product');
 const showCartRouter = require('./routes/showcart');
 const addCartRouter = require('./routes/addcart');
+const orderRouter = require('./routes/order');
+const paymentRouter = require('./routes/payment');
+const profileRouter = require('./routes/profile');
 
 mongoose.connect('mongodb://localhost:27017/shopping', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -125,6 +128,21 @@ app.use('/cart', (req, res, next) => {
   req.dbConfig = dbConfig;
   next();
 }, showCartRouter);
+
+app.use('/order', (req, res, next) => {
+  req.dbConfig = dbConfig;
+  next();
+}, orderRouter);
+
+app.use('/payment', (req, res, next) => {
+  req.dbConfig = dbConfig;
+  next();
+}, paymentRouter);
+
+app.use('/profile', (req, res, next) => {
+  req.dbConfig = dbConfig;
+  next();
+}, profileRouter);
 
 app.get('/', function(req, res) {
   res.render('index');
