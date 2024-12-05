@@ -87,6 +87,6 @@ app.use('/team', team);
 app.use('/createAccount', createAccount);
 
 // Starting our Express app
-app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
+app.listen(80, () => {
+    console.log('Server running on http://localhost:80');
 });
